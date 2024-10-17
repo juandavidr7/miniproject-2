@@ -1,5 +1,6 @@
 package com.example.miniproject2;
 
+import com.example.miniproject2.view.GameStage;
 import com.example.miniproject2.view.WelcomeStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -14,6 +15,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        WelcomeStage.getInstance();
+        GameStage.getInstance();
     }
 }
