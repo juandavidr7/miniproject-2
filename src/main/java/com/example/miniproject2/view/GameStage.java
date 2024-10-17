@@ -15,11 +15,16 @@ public class GameStage extends Stage {
     private GameController gameController;
 
     public GameStage() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproject2/game-view.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproject2/fxml/game-view.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/com/example/miniproject2/styles/styleGameStage.css").toExternalForm());
         setScene(scene);
         setTitle("SUDOKU");
+        setWidth(920);
+        setHeight(700);
+        setResizable(false);
+
         // setIcon and other properties
         setOnCloseRequest(windowEvent -> {
             windowEvent.consume();

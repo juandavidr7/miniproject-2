@@ -8,18 +8,17 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.TilePane?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="515.0" prefWidth="708.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="651.0" prefWidth="818.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.miniproject2.controller.GameController">
   <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.20001220703125" minWidth="10.0" prefWidth="50.39996337890625" />
-      <ColumnConstraints hgrow="SOMETIMES" maxWidth="360.0" minWidth="10.0" prefWidth="349.60003662109375" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="195.20001220703125" minWidth="10.0" prefWidth="142.60001220703126" />
+      <ColumnConstraints hgrow="SOMETIMES" maxWidth="500.79998779296875" minWidth="10.0" prefWidth="456.9999877929688" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="327.5999755859375" minWidth="10.0" prefWidth="218.39997558593757" />
   </columnConstraints>
   <rowConstraints>
-    <RowConstraints maxHeight="175.4" minHeight="10.0" prefHeight="137.00000610351563" vgrow="SOMETIMES" />
-    <RowConstraints maxHeight="173.79998168945312" minHeight="10.0" prefHeight="152.99999389648437" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="371.00001831054686" minHeight="10.0" prefHeight="317.4" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="281.5999816894531" minHeight="10.0" prefHeight="156.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="306.79999389648435" minHeight="10.0" prefHeight="177.60000000000002" vgrow="SOMETIMES" />
   </rowConstraints>
    <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowSpan="3">
@@ -81,7 +80,8 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </GridPane.margin>
       </GridPane>
-      <GridPane alignment="CENTER" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+      <ImageView fitHeight="162.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
+      <GridPane GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -92,7 +92,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="5" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
@@ -112,22 +112,25 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="5" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="1">
+            <Button mnemonicParsing="false" prefHeight="106.0" prefWidth="97.0" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
          </children>
          <GridPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+            <Insets bottom="5.0" />
          </GridPane.margin>
       </GridPane>
-      <ImageView fitHeight="162.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2" />
-      <TilePane alignment="TOP_CENTER" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowSpan="2" />
+      <GridPane fx:id="boardGrid" GridPane.columnIndex="1" GridPane.rowSpan="2">
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+      </GridPane>
    </children>
 </GridPane>
