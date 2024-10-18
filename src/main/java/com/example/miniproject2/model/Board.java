@@ -17,6 +17,14 @@ public class Board implements IBoard {
             fillMatrix(i);
         }
     }
+    public Board(ArrayList<ArrayList<Integer>> arrayList){
+        for (int i = 0; i < 6; i++) {
+            randomMatrix.add(new ArrayList<>());
+            for (int j = 0; j < 6; j++) {
+                randomMatrix.get(i).add(j, arrayList.get(i).get(j));
+            }
+        }
+    }
     @Override
     public void fillMatrix(int i) {
         int j = 0;
@@ -76,6 +84,10 @@ public class Board implements IBoard {
             }
         }
         return false;
+    }
+
+    public boolean verifyNum(int num, int i, int j){
+        return !((checkColum(num, i, j) || checkRow(num, i)) || checkBox(num, i, j));
     }
 
     public ArrayList<ArrayList<Integer>> getRandomMatrix(){
