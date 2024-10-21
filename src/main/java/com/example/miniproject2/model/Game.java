@@ -1,6 +1,6 @@
 package com.example.miniproject2.model;
 
-import java.sql.Struct;
+
 import java.util.ArrayList;
 import java.util.Random;
 
