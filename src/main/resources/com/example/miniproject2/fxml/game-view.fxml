@@ -45,32 +45,32 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <Button fx:id="button6" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="6" GridPane.columnIndex="1" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="2" GridPane.columnIndex="1">
+            <Button fx:id="button2" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="2" GridPane.columnIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="5" GridPane.rowIndex="2">
+            <Button fx:id="button5" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="5" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="3" GridPane.rowIndex="1">
+            <Button fx:id="button3" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="3" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <Button fx:id="button4" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="4" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="1">
+            <Button fx:id="button1" mnemonicParsing="false" prefHeight="53.0" prefWidth="178.0" text="1">
                <GridPane.margin>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </GridPane.margin>

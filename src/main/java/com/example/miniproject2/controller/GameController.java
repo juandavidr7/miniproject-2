@@ -4,6 +4,7 @@ import com.example.miniproject2.model.Game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -11,17 +12,28 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-public class GameController {
+public class GameController implements ITimer, IFields {
 
     @FXML
     private GridPane boardGrid;
-
     @FXML
     private Label timerLabel;
+    @FXML
+    private Button button1;
+    @FXML
+    private Button button2;
+    @FXML
+    private Button button3;
+    @FXML
+    private Button button4;
+    @FXML
+    private Button button5;
+    @FXML
+    private Button button6;
 
     private int secondsPassed = 0;
     private Timeline timeline;
-
+    private TextField activeTextField = null;
     private Game game;
     private ArrayList<TextField> textFields = new ArrayList<>();
 
@@ -33,10 +45,10 @@ public class GameController {
     public void initialize() {
         createTextFields();
         startTimer();
+        setButtonEvents();
     }
 
     public void startTimer() {
-
         timeline = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
             secondsPassed++;
             updateLabel();
@@ -46,7 +58,7 @@ public class GameController {
         timeline.play();
     }
 
-    private void updateLabel() {
+    public void updateLabel() {
         // Actualizar el texto del label con el tiempo transcurrido
         timerLabel.setText("Time: " + secondsPassed + "s");
     }
@@ -91,6 +103,7 @@ public class GameController {
                 boardGrid.add(txt, j, i);
                 textFields.add(txt);
 
+                txt.setOnMouseClicked(event -> activeTextField = txt);
                 // Agregar evento de teclado si es necesario
                 onKeyTxtTyped(txt, i, j);
             }
@@ -109,6 +122,7 @@ public class GameController {
                     int num = Character.getNumericValue(c);
                     if (num >= 1 && num <= 6) {
                         game.getActualBoard().get(row).set(col, num);
+                        validateAndColorField(txt, row, col, num);
                     } else {
                         txt.clear();
                     }
@@ -121,4 +135,61 @@ public class GameController {
             }
         });
     }
+
+    // Método para asignar eventos a los botones
+    private void setButtonEvents() {
+        button1.setOnAction(event -> insertNumberIntoActiveTextField(1));
+        button2.setOnAction(event -> insertNumberIntoActiveTextField(2));
+        button3.setOnAction(event -> insertNumberIntoActiveTextField(3));
+        button4.setOnAction(event -> insertNumberIntoActiveTextField(4));
+        button5.setOnAction(event -> insertNumberIntoActiveTextField(5));
+        button6.setOnAction(event -> insertNumberIntoActiveTextField(6));
+    }
+
+    // Método para insertar un número en el TextField actualmente seleccionado
+    // Método para insertar un número en el TextField actualmente seleccionado
+    public void insertNumberIntoActiveTextField(int number) {
+        if (activeTextField != null) {
+            // Obtener la posición del TextField activo
+            int index = textFields.indexOf(activeTextField);
+            int row = index / 6; // Fila
+            int col = index % 6; // Columna
+
+            // Insertar el número
+            activeTextField.setText(String.valueOf(number));
+            game.getActualBoard().get(row).set(col, number);
+
+            // Validar y colorear campo
+            validateAndColorField(activeTextField, row, col, number);
+        }
+    }
+
+
+
+    // Método para validar y colorear el borde del TextField
+    public void validateAndColorField(TextField txt, int row, int col, int number) {
+        // Comparar el número ingresado con la solución
+        if (number == game.getSolvedBoard().get(row).get(col)) {
+            // Si es correcto, mantener el borde blanco
+            txt.setStyle("-fx-font-size: 25px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-text-fill: white;" +
+                    "-fx-background-color: transparent;" +
+                    "-fx-border-color: green;" +
+                    "-fx-border-width: 2px;" +
+                    "-fx-border-radius: 5px;" +
+                    "-fx-text-alignment: center;");
+        } else {
+            // Si es incorrecto, colorear el borde de rojo
+            txt.setStyle("-fx-font-size: 25px;" +
+                    "-fx-font-weight: bold;" +
+                    "-fx-text-fill: white;" +
+                    "-fx-background-color: transparent;" +
+                    "-fx-border-color: red;" +
+                    "-fx-border-width: 2px;" +
+                    "-fx-border-radius: 5px;" +
+                    "-fx-text-alignment: center;");
+        }
+    }
+
 }
