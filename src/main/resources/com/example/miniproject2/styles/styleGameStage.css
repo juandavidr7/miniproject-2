@@ -1,5 +1,6 @@
 .root {
-    -fx-background-image: url("../images/background.png"); /* Background image */
+    /* -fx-background-image: url("../images/background.png"); /* Background image */
+    -fx-background-color: black;
     -fx-background-size: cover; /* Ensures the image covers the entire background */
     -fx-background-position: center; /* Centers the background image */
 }

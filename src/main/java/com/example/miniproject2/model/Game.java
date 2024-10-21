@@ -28,32 +28,56 @@ public class Game {
         int initial_row = (2 * numBox) - 2;
         int initial_col = (3 * numBox) - 3;
         Random rand = new Random();
-        ArrayList<ArrayList<Integer>> actualBoardCopy = new ArrayList<>();
+        ArrayList<ArrayList<Integer>> actualBoardCopy;
         int row, col, num;
-        for (int i = 0; i < 4; i ++){
-            actualBoardSolutions = 0;
-            while (true){
+
+        // Solo permitimos un número limitado de intentos
+        int maxAttempts = 10;
+        for (int i = 0; i < 4; i++) {
+            int attempts = 0;
+            boolean placedBlank = false;
+            while (attempts < maxAttempts) {
                 row = rand.nextInt(2) + initial_row;
                 col = rand.nextInt(3) + initial_col;
 
-                if (actualBoard.get(row).get(col) != 0){
+                // Verificar que row y col no excedan los límites de la matriz (0-5)
+                if (row >= 6 || col >= 6) {
+                    attempts++;
+                    continue; // Si los índices están fuera de rango, intentar de nuevo
+                }
+
+                if (actualBoard.get(row).get(col) != 0) {
                     num = actualBoard.get(row).get(col);
                     actualBoard.get(row).set(col, 0);
+
+                    // Crear una copia antes de resolver
+                    actualBoardCopy = new ArrayList<>();
                     copy(actualBoard, actualBoardCopy);
-                    solveActualBoard(actualBoardCopy);
-                    if (actualBoardSolutions == 1){
-                        break;
+
+                    actualBoardSolutions = 0;  // Resetear el contador de soluciones
+                    solveActualBoard(actualBoardCopy);  // Intentamos resolver
+
+                    // Si solo hay una solución, dejamos el espacio en blanco
+                    if (actualBoardSolutions == 1) {
+                        placedBlank = true;
+                        break;  // Salimos del bucle while
                     } else {
+                        // Si no, revertimos el cambio
                         actualBoard.get(row).set(col, num);
-                        if (setBlanks(numBox)){
-                            return true;
-                        }
                     }
                 }
+                attempts++;
+            }
+
+            // Si no pudimos colocar un espacio en blanco en esta iteración
+            if (!placedBlank) {
+                return false;
             }
         }
         return true;
     }
+
+
 
     public void copy(ArrayList<ArrayList<Integer>> board, ArrayList<ArrayList<Integer>> boardCopy){
         for (int i = 0; i < 6; i++){
