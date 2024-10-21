@@ -119,9 +119,6 @@ public class Board implements IBoard {
         return false;
     }
 
-    public boolean verifyNum(int num, int i, int j) {
-        return !checkColum(num, i, j) && !checkRow(num, i) && !checkBox(num, i, j);
-    }
 
     public ArrayList<ArrayList<Integer>> getRandomMatrix(){
         return randomMatrix;

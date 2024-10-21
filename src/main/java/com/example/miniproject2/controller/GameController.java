@@ -85,7 +85,7 @@ public class GameController {
 
                 // Asignar el valor actual de la matriz
                 Integer individualValue = game.getActualBoard().get(i).get(j);
-                txt.setText(individualValue == 0 ? "" : individualValue.toString());
+                txt.setText(individualValue == 0 ? "" : individualValue.toString()); // Si el valor en matriz es 0 dejar en blanco
 
                 // Añadir TextField al GridPane en la posición correspondiente (incluyendo la columna 0)
                 boardGrid.add(txt, j, i);
@@ -97,15 +97,27 @@ public class GameController {
         }
     }
 
-
     // Metodo para manejar eventos cuando se tipea en un campo
     private void onKeyTxtTyped(TextField txt, int row, int col) {
         txt.setOnKeyTyped(event -> {
             String input = txt.getText();
-            if (input.matches("\\d")) {  // Si el valor ingresado es un número
-                game.getActualBoard().get(row).set(col, Integer.parseInt(input));
+
+            // Asegurarse de que solo se ingrese un número del 1 al 6
+            if (input.length() == 1) {
+                char c = input.charAt(0);
+                if (Character.isDigit(c)) {
+                    int num = Character.getNumericValue(c);
+                    if (num >= 1 && num <= 6) {
+                        game.getActualBoard().get(row).set(col, num);
+                    } else {
+                        txt.clear();
+                    }
+                } else {
+                    txt.clear();
+                }
             } else {
-                game.getActualBoard().get(row).set(col, 0);  // Si no es válido, pon 0
+                txt.clear();
+                txt.positionCaret(1);
             }
         });
     }
