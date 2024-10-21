@@ -2,6 +2,7 @@ package com.example.miniproject2.model;
 
 import java.sql.Struct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 public class Game {
@@ -18,60 +19,89 @@ public class Game {
         setActualBoard();
     }
 
-    public void setActualBoard(){
-        for (int numBox = 1; numBox <= 6; numBox++){
-            setBlanks(numBox);
-        }
-    }
-    // Error on counting the number of positions that have to be replaced
-    public boolean setBlanks(int numBox){
-        int initial_row = (2 * numBox) - 2;
-        int initial_col = (3 * numBox) - 3;
-        Random rand = new Random();
-        ArrayList<ArrayList<Integer>> actualBoardCopy = new ArrayList<>();
-        int row, col, num;
-        for (int i = 0; i < 4; i ++){
-            actualBoardSolutions = 0;
-            while (true){
-                row = rand.nextInt(2) + initial_row;
-                col = rand.nextInt(3) + initial_col;
+    public void setActualBoard() {
+        show(actualBoard);
 
-                if (actualBoard.get(row).get(col) != 0){
-                    num = actualBoard.get(row).get(col);
-                    actualBoard.get(row).set(col, 0);
-                    copy(actualBoard, actualBoardCopy);
-                    solveActualBoard(actualBoardCopy);
-                    if (actualBoardSolutions == 1){
-                        break;
-                    } else {
-                        actualBoard.get(row).set(col, num);
-                        if (setBlanks(numBox)){
-                            return true;
-                        }
+        ArrayList<Integer> boxOrder = new ArrayList<>();
+        for (int i = 0; i < 6; i++) {
+            boxOrder.add(i);
+        }
+        Collections.shuffle(boxOrder);
+
+        setBlanks(boxOrder, null);
+    }
+
+    public boolean setBlanks(ArrayList<Integer> boxOrder, ArrayList<ArrayList<Integer>> positions) {
+        for (int numBox : boxOrder) {
+            int initial_row = (numBox / 2) * 2;
+            int initial_col = (numBox % 2 == 0) ? 0 : 3;
+            int blanksNum = 0;
+
+            if (positions == null) {
+                positions = new ArrayList<>();
+                for (int i = initial_row; i < initial_row + 2; i++) {
+                    for (int j = initial_col; j < initial_col + 3; j++) {
+                        ArrayList<Integer> position = new ArrayList<>();
+                        position.add(i);
+                        position.add(j);
+                        positions.add(position);
                     }
                 }
+                Collections.shuffle(positions);
+                show(positions);
             }
+
+            for (ArrayList<Integer> pos : positions) {
+                if (blanksNum < 4) {
+                    int row = pos.get(0);
+                    int col = pos.get(1);
+                    int num = actualBoard.get(row).get(col);
+
+                    if (num != 0) {
+                        actualBoard.get(row).set(col, 0);
+                        show(actualBoard);
+
+                        ArrayList<ArrayList<Integer>> actualBoardCopy = new ArrayList<>();
+                        copy(actualBoard, actualBoardCopy);
+
+                        actualBoardSolutions = 0;
+                        solveActualBoard(actualBoardCopy);
+
+                        if (actualBoardSolutions == 1) {
+                            blanksNum++;
+                            if (setBlanks(boxOrder, positions)) {
+                                return true;
+                            }
+                        }
+                        actualBoard.get(row).set(col, num);
+                        show(actualBoard);
+                    }
+                } else {
+                    break;
+                }
+            }
+            return false;
         }
-        return true;
+        return false;
     }
 
-    public void copy(ArrayList<ArrayList<Integer>> board, ArrayList<ArrayList<Integer>> boardCopy){
-        for (int i = 0; i < 6; i++){
+    public void copy(ArrayList<ArrayList<Integer>> board, ArrayList<ArrayList<Integer>> boardCopy) {
+        for (int i = 0; i < 6; i++) {
             boardCopy.add(new ArrayList<>());
-            for (int j = 0 ; j < 6; j++){
-                boardCopy.get(i).add(j, board.get(i).get(j));
+            for (int j = 0; j < 6; j++) {
+                boardCopy.get(i).add(board.get(i).get(j));
             }
         }
     }
 
-    public boolean solveActualBoard(ArrayList<ArrayList<Integer>> actualBoard){
-        for (int row = 0; row < 6; row++){
-            for (int col = 0; col < 6; col++){
-                if (actualBoard.get(row).get(col) == 0){
-                    for (int num = 1; num <= 6; num++){
-                        if (a_board.verifyNum(num, row, col)){
+    public boolean solveActualBoard(ArrayList<ArrayList<Integer>> actualBoard) {
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                if (actualBoard.get(row).get(col) == 0) {
+                    for (int num = 1; num <= 6; num++) {
+                        if (a_board.verifyNum(num, row, col)) {
                             actualBoard.get(row).set(col, num);
-                            if (solveActualBoard(actualBoard)){
+                            if (solveActualBoard(actualBoard)) {
                                 return true;
                             }
                             actualBoard.get(row).set(col, 0);
@@ -95,5 +125,12 @@ public class Game {
 
     public ArrayList<ArrayList<Integer>> getActualBoard(){
         return actualBoard;
+    }
+
+    public void show(ArrayList<ArrayList<Integer>> board) {
+        System.out.println("====================================");
+        for (int i = 0; i < 6; i++) {
+            System.out.println(board.get(i));
+        }
     }
 }
