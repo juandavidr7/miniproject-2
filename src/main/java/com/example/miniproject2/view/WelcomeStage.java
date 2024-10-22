@@ -17,6 +17,7 @@ public class WelcomeStage extends Stage {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproject2/fxml/welcome.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
+        scene.getStylesheets().add(getClass().getResource("/com/example/miniproject2/styles/styleWelcomeStage.css").toExternalForm());
         setScene(scene);
         setTitle("SUDOKU");
         // setIcon and other properties

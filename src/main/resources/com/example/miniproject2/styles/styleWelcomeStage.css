@@ -1,0 +1,39 @@
+.button-styles {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 50px;
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-size: 20px;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-border-color: #003300;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
+
+.button-styles:hover {
+
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 15, 0.8 , 0 , 0 );
+    -fx-cursor: hand;
+}
+
+.button-styles:pressed {
+
+    -fx-background-color: #005500; /* Verde oscuro */
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 20, 0.9 , 0 , 0 );
+}
+.root {
+    /* -fx-background-image: url("../images/background.png"); /* Background image */
+    -fx-background-color: black;
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+#buttonsMenu{
+    -fx-background-image: url("../images/background-button-menu.png");
+    -fx-background-size: cover; /* Ensures the image covers the entire background */
+    -fx-background-position: center; /* Centers the background image */
+}
