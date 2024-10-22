@@ -26,8 +26,7 @@
     -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 20, 0.9 , 0 , 0 );
 }
 .root {
-    /* -fx-background-image: url("../images/background.png"); /* Background image */
-    -fx-background-color: black;
+    -fx-background-image: url("../images/welcome-background.png"); /* Background image */
     -fx-background-size: cover;
     -fx-background-position: center;
 }
@@ -36,4 +35,8 @@
     -fx-background-image: url("../images/background-button-menu.png");
     -fx-background-size: cover; /* Ensures the image covers the entire background */
     -fx-background-position: center; /* Centers the background image */
+}
+
+#titleImage{
+    -fx-pref-height: 1000px;
 }
