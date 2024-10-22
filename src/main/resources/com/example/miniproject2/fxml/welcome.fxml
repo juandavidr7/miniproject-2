@@ -10,7 +10,7 @@
    <children>
       <VBox fx:id="buttonsMenu" alignment="CENTER" layoutX="560.0" layoutY="86.0" prefHeight="444.0" prefWidth="261.0">
          <children>
-            <Button mnemonicParsing="false" styleClass="button-styles" text="Play">
+            <Button mnemonicParsing="false" onAction="#onStartPlay" styleClass="button-styles" text="Play">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
@@ -23,12 +23,12 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="button-styles" text="Instruccion">
+            <Button mnemonicParsing="false" onAction="#OnShowInstruccion" styleClass="button-styles" text="Instruccion">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="button-styles" text="Quit" />
+            <Button fx:id="closeButton" mnemonicParsing="false" onAction="#setOnCloseRequest" styleClass="button-styles" text="Quit" />
          </children>
       </VBox>
       <ImageView fitHeight="86.0" fitWidth="370.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true" />
