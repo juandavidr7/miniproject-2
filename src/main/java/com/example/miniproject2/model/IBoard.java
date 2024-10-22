@@ -3,7 +3,8 @@ package com.example.miniproject2.model;
 import java.util.ArrayList;
 
 public interface IBoard {
-    void fillMatrix(int i);
+
+    boolean fillMatrix(int i, int j);
 
     boolean checkBox(int num, int i, int j);
 
