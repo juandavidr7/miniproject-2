@@ -44,6 +44,8 @@ public class GameController implements ITimer, IFields {
     private Button button5;
     @FXML
     private Button button6;
+    @FXML
+    private Button buttonStartTime;
 
     private int secondsPassed = 0;
     private Timeline timeline;
@@ -57,6 +59,7 @@ public class GameController implements ITimer, IFields {
         createTextFields();
         startTimer();
         setButtonEvents();
+
     }
 
     public void startTimer() {
