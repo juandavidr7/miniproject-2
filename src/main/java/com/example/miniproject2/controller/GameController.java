@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
@@ -46,7 +47,18 @@ public class GameController implements ITimer, IFields {
     private Button button6;
     @FXML
     private Button buttonStartTime;
+    @FXML
+    private Label messagesLabel;
+    @FXML
+    private Label helpsLabel;
 
+    private final String[][] messagesBox = {
+            {"El numero ingresado es correcto :D", "Genial, parece que vas por buen camino...", "Excelente elección"},
+            {"No, no, no, ese número no pertenece aquí", "Lo lamento, el número es incorrecto", "Creo que puedes hacerlo mejor"},
+            {"Aquí tienes, una ayudita...", "Y que tal si haces esto...", "Sabía que no podías hacerlo solo"},
+            {"Lo lamento amigo, no te quedan más ayudas", "Ahora tendrás que continuar sin mi", "¿Más ayudas? Pero si ya te he dado tres!!"},
+            {"Espectacular!! Has ganado", "Felicidades, has vencido el juego", "Lo hiciste increible, ¿qué tal otra ronda?"}
+    };
     private int secondsPassed = 0;
     private Timeline timeline;
     private TextField activeTextField = null;
@@ -56,10 +68,10 @@ public class GameController implements ITimer, IFields {
 
     @FXML
     public void initialize() {
+        messagesLabel.setWrapText(true);
         createTextFields();
         startTimer();
         setButtonEvents();
-
     }
 
     public void startTimer() {
@@ -122,9 +134,21 @@ public class GameController implements ITimer, IFields {
     }
 
     private void onKeyTxtTyped(TextField txt, int row, int col) {
+        txt.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (Objects.equals(newValue, "")){
+                game.getActualBoard().get(row).set(col, 0);
+                textFields.get(row).get(col).setStyle("-fx-font-size: 25px;" +
+                        "-fx-font-weight: bold;" +
+                        "-fx-text-fill: white;" +
+                        "-fx-background-color: transparent;" +
+                        "-fx-border-color: white;" +
+                        "-fx-border-width: 2px;" +
+                        "-fx-border-radius: 5px;" +
+                        "-fx-text-alignment: center;");
+            }
+        });
         txt.setOnKeyTyped(event -> {
             String input = txt.getText();
-
             if (input.length() == 1) {
                 char c = input.charAt(0);
                 if (Character.isDigit(c)) {
@@ -155,12 +179,19 @@ public class GameController implements ITimer, IFields {
     @Override
     public void insertNumberIntoActiveTextField(int number) {
         if (activeTextField != null) {
-            int index = textFields.indexOf(activeTextField);
-            int row = index / 6;
-            int col = index % 6;
+            int row = 0, col = 0;
+
+            for (int i = 0; i < 6; i++){
+                for (int j = 0; j < 6; j++){
+                    if (activeTextField == textFields.get(i).get(j)){
+                        row = i;
+                        col = j;
+                        break;
+                    }
+                }
+            }
 
             activeTextField.setText(String.valueOf(number));
-            game.getActualBoard().get(row).set(col, number);
 
             validateAndColorFields(activeTextField, row, col, number);
         }
@@ -183,6 +214,7 @@ public class GameController implements ITimer, IFields {
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
+                    messagesLabel.setText(messagesBox[0][new Random().nextInt(3)]);
                 } else {
                     textFields.get(i).get(j).setStyle("-fx-font-size: 25px;" +
                             "-fx-font-weight: bold;" +
@@ -192,9 +224,11 @@ public class GameController implements ITimer, IFields {
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
+                    messagesLabel.setText(messagesBox[1][new Random().nextInt(3)]);
                 }
             }
         }
+
         if (game.isSolved()){
             handleWinEvent();
         }
@@ -214,7 +248,11 @@ public class GameController implements ITimer, IFields {
             TextField txt = textFields.get(i).get(j);
             txt.setText(Integer.toString(num));
             helpsLeft--;
+            helpsLabel.setText("Ayudas restantes: " + helpsLeft);
             validateAndColorFields(txt, i, j, num);
+            messagesLabel.setText(messagesBox[2][new Random().nextInt(3)]);
+        } else{
+            messagesLabel.setText(messagesBox[3][new Random().nextInt(3)]);
         }
     }
 
@@ -225,6 +263,7 @@ public class GameController implements ITimer, IFields {
 
     public void handleRestart(ActionEvent event){
         stopTimer();
+        helpsLabel.setText("Ayudas restantes: 3");
         game = new Game();
         textFields = new ArrayList<>();
         secondsPassed = 0;
@@ -238,6 +277,6 @@ public class GameController implements ITimer, IFields {
     }
 
     public void handleWinEvent(){
-        System.out.println("You have won");
+        messagesLabel.setText(messagesBox[4][new Random().nextInt(3)] + "\n");
     }
 }

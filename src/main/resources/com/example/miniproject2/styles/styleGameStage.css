@@ -32,14 +32,30 @@ Button:hover {
 }
 
 .button-styles:pressed {
-
-    -fx-background-color: #005500;
     -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 20, 0.9 , 0 , 0 );
 }
+
 #buttonStartTime{
     -fx-pref-height: 200px;
     -fx-background-image: url("../images/start.png");
     -fx-background-size: contain;
     -fx-background-color: none;
     -fx-background-repeat: no-repeat;
+}
+
+Label {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-border-color: #003300;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
+
+#helpsLabel {
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
 }
