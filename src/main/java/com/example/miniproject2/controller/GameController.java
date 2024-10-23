@@ -66,6 +66,7 @@ public class GameController implements ITimer, IFields {
     private Game game = new Game();
     private ArrayList<ArrayList<TextField>> textFields = new ArrayList<>();
     private int helpsLeft = 3;
+    private String currentMessage = "";
 
     @FXML
     public void initialize() {
@@ -116,15 +117,14 @@ public class GameController implements ITimer, IFields {
                         "-fx-border-width: 1px;" +
                         "-fx-text-alignment: center;");
 
-                // Colocar valor del tablero, si lo tiene
                 Integer individualValue = game.getActualBoard().get(i).get(j);
                 if (individualValue != 0) {
                     txt.setText(individualValue.toString());
                     txt.setDisable(true);
                     txt.setStyle(txt.getStyle() +
-                            "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
-                            "-fx-background-color: lightgreen;" + // Fondo verde claro
-                            "-fx-border-color: green;" + // Borde verde
+                            "-fx-text-fill: darkgreen;" +
+                            "-fx-background-color: lightgreen;" +
+                            "-fx-border-color: green;" +
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;");
                 }
@@ -141,7 +141,7 @@ public class GameController implements ITimer, IFields {
     private void onKeyTxtTyped(TextField txt, int row, int col) {
         txt.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, "")){
-                game.getActualBoard().get(row).set(col, 0);
+                validateAndColorFields(txt, row, col, 0);
                 textFields.get(row).get(col).setStyle("-fx-font-size: 25px;" +
                         "-fx-font-weight: bold;" +
                         "-fx-text-fill: white;" +
@@ -203,52 +203,43 @@ public class GameController implements ITimer, IFields {
     @Override
     public void validateAndColorFields(TextField txt, int row, int col, int number) {
         game.getActualBoard().get(row).set(col, number);
-
-        // Comparar con la matriz original
-        int originalNumber = game.getSolvedBoard().get(row).get(col);
-
+        if (game.getActualBoard().get(row).get(col) != 0) {
+            currentMessage += (Board.verifyNum(game.getActualBoard(), number, row, col) ?
+            messagesBox[0][new Random().nextInt(3)] + "\n" :
+            messagesBox[1][new Random().nextInt(3)] + "\n");
+        }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 int temp = game.getActualBoard().get(i).get(j);
                 if (temp == 0 || textFields.get(i).get(j).isDisabled()) {
                     continue;
                 }
-                if (temp == originalNumber) {
-                    // Estilo para número correcto
+                if (Board.verifyNum(game.getActualBoard(), temp, i, j)) {
                     textFields.get(i).get(j).setStyle("-fx-font-size: 25px;" +
                             "-fx-font-weight: bold;" +
-                            "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
-                            "-fx-background-color: lightgreen;" + // Fondo verde claro
-                            "-fx-border-color: green;" + // Borde verde
+                            "-fx-text-fill: darkgreen;" +
+                            "-fx-background-color: lightgreen;" +
+                            "-fx-border-color: green;" +
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
-
-                    // Deshabilitar el TextField para que no pueda ser modificado
-                    textFields.get(i).get(j).setDisable(true);
-                    messagesLabel.setText(messagesBox[0][new Random().nextInt(3)]);
                 } else {
-                    // Estilo para número incorrecto
                     textFields.get(i).get(j).setStyle("-fx-font-size: 25px;" +
                             "-fx-font-weight: bold;" +
-                            "-fx-text-fill: darkred;" + // Texto en rojo oscuro
-                            "-fx-background-color: lightcoral;" + // Fondo rojo claro
-                            "-fx-border-color: red;" + // Borde rojo
+                            "-fx-text-fill: darkred;" +
+                            "-fx-background-color: lightcoral;" +
+                            "-fx-border-color: red;" +
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
-                    messagesLabel.setText(messagesBox[1][new Random().nextInt(3)]);
                 }
             }
         }
-
+        messagesLabel.setText(currentMessage);
         if (game.isSolved()) {
             handleWinEvent();
         }
     }
-
-
-
 
     public void handleHelp(ActionEvent event) {
         if (helpsLeft > 0) {
@@ -265,10 +256,10 @@ public class GameController implements ITimer, IFields {
             txt.setText(Integer.toString(num));
             helpsLeft--;
             helpsLabel.setText("Ayudas restantes: " + helpsLeft);
+            currentMessage += messagesBox[2][new Random().nextInt(3)] + "\n";
             validateAndColorFields(txt, i, j, num);
-            messagesLabel.setText(messagesBox[2][new Random().nextInt(3)]);
         } else{
-            messagesLabel.setText(messagesBox[3][new Random().nextInt(3)]);
+            currentMessage += messagesBox[3][new Random().nextInt(3)] + "\n";
         }
     }
 
