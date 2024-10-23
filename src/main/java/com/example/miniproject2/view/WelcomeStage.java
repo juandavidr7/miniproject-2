@@ -20,7 +20,7 @@ public class WelcomeStage extends Stage {
         scene.getStylesheets().add(getClass().getResource("/com/example/miniproject2/styles/styleWelcomeStage.css").toExternalForm());
         setScene(scene);
         setTitle("SUDOKU");
-        // setIcon and other properties
+        setResizable(false);
         setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
             deletedInstance();
@@ -45,6 +45,7 @@ public class WelcomeStage extends Stage {
         alert.setContentText("Perderá el progreso actual.");
         if (alert.showAndWait().get() == ButtonType.OK) {
             WelcomeStageHolder.INSTANCE.close();
+            WelcomeStageHolder.INSTANCE = null;
         }
     }
 

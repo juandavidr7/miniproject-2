@@ -1,84 +1,115 @@
 package com.example.miniproject2.model;
 
-import java.util.ArrayList;
-import java.util.Random;
+import java.sql.Struct;
+import java.util.*;
 
 public class Game {
     private final Board board = new Board();
-    private final Board a_board;
-    private ArrayList<ArrayList<Integer>> solvedBoard;
-    private ArrayList<ArrayList<Integer>> actualBoard;
+    private ArrayList<ArrayList<Integer>> solvedBoard = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> actualBoard = new ArrayList<>();
+    int actualBoardSolutions = 0;
 
     public Game() {
-        solvedBoard = board.getRandomMatrix(); // Genera una matriz solucionada aleatoria
-        a_board = new Board(solvedBoard); // Crea una copia del tablero solucionado
-        actualBoard = new ArrayList<>(); // Inicializa el tablero actual
-        copy(solvedBoard, actualBoard); // Copia el tablero solucionado para modificarlo
-        setActualBoard(); // Configura el tablero con las pistas visibles y el resto en ceros
+        solvedBoard = board.getRandomMatrix();
+        actualBoard = copy(solvedBoard);
+        show(solvedBoard);
+        setActualBoard();
     }
 
     public void setActualBoard() {
-        Random rand = new Random();
+        do {
+            actualBoardSolutions = 0;
+            actualBoard = copy(solvedBoard);
+            setBlanks(actualBoard);
+            ArrayList<ArrayList<Integer>> actualBoardCopy = copy(actualBoard);
+            solveActualBoard(actualBoardCopy);
+        } while (actualBoardSolutions != 1);
+    }
 
-        // Dividir el tablero en 6 subcuadrículas 2x3
-        for (int boxRow = 0; boxRow < 3; boxRow++) {
-            for (int boxCol = 0; boxCol < 2; boxCol++) {
-
-                // Obtener todas las posiciones dentro de la subcuadrícula 2x3
-                ArrayList<int[]> positions = new ArrayList<>();
-                for (int row = boxRow * 2; row < (boxRow * 2) + 2; row++) {
-                    for (int col = boxCol * 3; col < (boxCol * 3) + 3; col++) {
-                        positions.add(new int[]{row, col});
+    public void setBlanks(ArrayList<ArrayList<Integer>> matrix) {
+        Random random = new Random();
+        for (int row = 0; row < 6; row += 2) {
+            for (int col = 0; col < 6; col += 3) {
+                int[][] positions = new int[6][2];
+                int index = 0;
+                for (int i = 0; i < 2; i++) {
+                    for (int j = 0; j < 3; j++) {
+                        positions[index][0] = row + i;
+                        positions[index][1] = col + j;
+                        index++;
                     }
                 }
-
-                // Seleccionar 2 posiciones aleatorias para dejar visibles
-                ArrayList<int[]> visiblePositions = new ArrayList<>();
-                while (visiblePositions.size() < 2) {
-                    int[] pos = positions.remove(rand.nextInt(positions.size()));
-                    visiblePositions.add(pos);
+                int clue1 = random.nextInt(6);
+                int clue2 = random.nextInt(6);
+                while (clue1 == clue2) {
+                    clue2 = random.nextInt(6);
                 }
-
-                // Colocar ceros en las posiciones no seleccionadas de la subcuadrícula
-                for (int[] pos : positions) {
-                    int row = pos[0];
-                    int col = pos[1];
-                    actualBoard.get(row).set(col, 0); // Colocar 0 en las posiciones no visibles
-                }
-
-                // Mantener visibles los números en las posiciones seleccionadas
-                for (int[] pos : visiblePositions) {
-                    int row = pos[0];
-                    int col = pos[1];
-                    actualBoard.get(row).set(col, solvedBoard.get(row).get(col)); // Mantener visible
+                for (int i = 0; i < 6; i++) {
+                    if (i != clue1 && i != clue2) {
+                        int fila = positions[i][0];
+                        int columna = positions[i][1];
+                        matrix.get(fila).set(columna, 0);
+                    }
                 }
             }
         }
     }
 
-
-    // Metodo para copiar un tablero a otro
-    public void copy(ArrayList<ArrayList<Integer>> board, ArrayList<ArrayList<Integer>> boardCopy) {
+    public ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> board) {
+        ArrayList<ArrayList<Integer>> boardCopy = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             boardCopy.add(new ArrayList<>());
             for (int j = 0; j < 6; j++) {
-                boardCopy.get(i).add(j, board.get(i).get(j));
+                boardCopy.get(i).add(board.get(i).get(j));
             }
         }
+        return boardCopy;
     }
 
-    // Comprobar si el tablero ha sido resuelto
+    public boolean solveActualBoard(ArrayList<ArrayList<Integer>> actualBoard) {
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                if (actualBoard.get(row).get(col) == 0) {
+                    for (int num = 1; num <= 6; num++) {
+                        if (Board.verifyNum(actualBoard, num, row, col)) {
+                            actualBoard.get(row).set(col, num);
+                            if (solveActualBoard(actualBoard)) {
+                                return true;
+                            }
+                            actualBoard.get(row).set(col, 0);
+                        }
+                    }
+                    return false;
+                }
+            }
+        }
+        actualBoardSolutions++;
+        return actualBoardSolutions > 1;
+    }
+
     public boolean isSolved() {
-        return solvedBoard == actualBoard;
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                if (!solvedBoard.get(i).get(j).equals(actualBoard.get(i).get(j))) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
-    // Obtener el tablero resuelto
     public ArrayList<ArrayList<Integer>> getSolvedBoard() {
         return solvedBoard;
     }
 
-    // Obtener el tablero actual
     public ArrayList<ArrayList<Integer>> getActualBoard() {
         return actualBoard;
+    }
+
+    public void show(ArrayList<ArrayList<Integer>> board) {
+        System.out.println("====================================");
+        for (int i = 0; i < 6; i++) {
+            System.out.println(board.get(i));
+        }
     }
 }

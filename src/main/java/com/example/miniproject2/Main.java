@@ -1,10 +1,9 @@
 package com.example.miniproject2;
 
-import com.example.miniproject2.view.GameStage;
+
 import com.example.miniproject2.view.WelcomeStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class Main extends Application {

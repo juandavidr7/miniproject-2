@@ -25,7 +25,6 @@ public class WelcomeController {
     @FXML
     private ImageView titleImage;
 
-    // Método que se ejecuta después de cargar la interfaz
     @FXML
     public void initialize() {
 
@@ -36,15 +35,11 @@ public class WelcomeController {
 
     @FXML
     void setOnCloseRequest(ActionEvent event) {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        if (stage != null) {
-            stage.close();
-        }
+        WelcomeStage.deletedInstance();
     }
     @FXML
     void onStartPlay(ActionEvent event) throws IOException {
-        Stage stage = (Stage) closeButton.getScene().getWindow();
-        stage.close();
+        WelcomeStage.closeInstance();
         GameStage.getInstance();
     }
 
