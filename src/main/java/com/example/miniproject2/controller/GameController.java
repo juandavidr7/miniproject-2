@@ -8,12 +8,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import javax.swing.*;
@@ -29,12 +32,6 @@ public class GameController implements ITimer, IFields {
     @FXML
     private Label timerLabel;
     @FXML
-    private Button exitButton;
-    @FXML
-    private Button restartButton;
-    @FXML
-    private Button helButton;
-    @FXML
     private Button button1;
     @FXML
     private Button button2;
@@ -49,11 +46,13 @@ public class GameController implements ITimer, IFields {
     @FXML
     private Button buttonStartTime;
     @FXML
-    private Label messagesLabel;
+    private VBox messagesBox;
     @FXML
     private Label helpsLabel;
+    @FXML
+    private ScrollPane scrollPane;
 
-    private final String[][] messagesBox = {
+    private final String[][] messages = {
             {"El numero ingresado es correcto :D", "Genial, parece que vas por buen camino...", "Excelente elección"},
             {"No, no, no, ese número no pertenece aquí", "Lo lamento, el número es incorrecto", "Creo que puedes hacerlo mejor"},
             {"Aquí tienes, una ayudita...", "Y que tal si haces esto...", "Sabía que no podías hacerlo solo"},
@@ -66,11 +65,12 @@ public class GameController implements ITimer, IFields {
     private Game game = new Game();
     private ArrayList<ArrayList<TextField>> textFields = new ArrayList<>();
     private int helpsLeft = 3;
-    private String currentMessage = "";
+    private String currentMessage;
 
     @FXML
     public void initialize() {
-        messagesLabel.setWrapText(true);
+        scrollPane.setFitToWidth(true);
+        messagesBox.setFillWidth(true);
         createTextFields();
         startTimer();
         setButtonEvents();
@@ -204,9 +204,11 @@ public class GameController implements ITimer, IFields {
     public void validateAndColorFields(TextField txt, int row, int col, int number) {
         game.getActualBoard().get(row).set(col, number);
         if (game.getActualBoard().get(row).get(col) != 0) {
-            currentMessage += (Board.verifyNum(game.getActualBoard(), number, row, col) ?
-            messagesBox[0][new Random().nextInt(3)] + "\n" :
-            messagesBox[1][new Random().nextInt(3)] + "\n");
+            currentMessage = (Board.verifyNum(game.getActualBoard(), number, row, col) ?
+            messages[0][new Random().nextInt(3)] :
+            messages[1][new Random().nextInt(3)]);
+        } else{
+            currentMessage = "";
         }
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -235,7 +237,13 @@ public class GameController implements ITimer, IFields {
                 }
             }
         }
-        messagesLabel.setText(currentMessage);
+        if (!(Objects.equals(currentMessage, ""))){
+        Label message = new Label(currentMessage);
+        message.setWrapText(true);
+        messagesBox.getChildren().add(message);
+        scrollPane.layout();
+        scrollPane.setVvalue(1.0);}
+
         if (game.isSolved()) {
             handleWinEvent();
         }
@@ -256,16 +264,15 @@ public class GameController implements ITimer, IFields {
             txt.setText(Integer.toString(num));
             helpsLeft--;
             helpsLabel.setText("Ayudas restantes: " + helpsLeft);
-            currentMessage += messagesBox[2][new Random().nextInt(3)] + "\n";
+            currentMessage = messages[2][new Random().nextInt(3)];
             validateAndColorFields(txt, i, j, num);
         } else{
-            currentMessage += messagesBox[3][new Random().nextInt(3)] + "\n";
+            currentMessage = messages[3][new Random().nextInt(3)];
         }
     }
 
     public void handleExit(ActionEvent event) throws IOException {
         GameStage.deletedInstance();
-        WelcomeStage.getInstance();
     }
 
     public void handleRestart(ActionEvent event){
@@ -283,7 +290,17 @@ public class GameController implements ITimer, IFields {
         setButtonEvents();
     }
 
+    public void handleBackToMenu(ActionEvent event) throws  IOException{
+        GameStage.closeInstance();
+        WelcomeStage.getInstance();
+    }
+
     public void handleWinEvent(){
-        messagesLabel.setText(messagesBox[4][new Random().nextInt(3)] + "\n");
+        Label message = new Label(messages[4][new Random().nextInt(3)] + "\n");
+        message.setWrapText(true);
+        message.setStyle("-fx-margin: 2px");
+        messagesBox.getChildren().add(message);
+        scrollPane.layout();
+        scrollPane.setVvalue(1.0);
     }
 }
