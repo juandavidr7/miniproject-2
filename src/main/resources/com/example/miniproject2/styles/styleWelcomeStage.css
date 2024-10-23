@@ -18,25 +18,23 @@
 
     -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 15, 0.8 , 0 , 0 );
     -fx-cursor: hand;
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
 }
 
 .button-styles:pressed {
 
-    -fx-background-color: #005500; /* Verde oscuro */
+    -fx-background-color: #005500;
     -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 20, 0.9 , 0 , 0 );
 }
 .root {
-    -fx-background-image: url("../images/welcome-background.png"); /* Background image */
+    -fx-background-image: url("../images/welcome-background.png");
     -fx-background-size: cover;
     -fx-background-position: center;
 }
 
 #buttonsMenu{
     -fx-background-image: url("../images/background-button-menu.png");
-    -fx-background-size: cover; /* Ensures the image covers the entire background */
-    -fx-background-position: center; /* Centers the background image */
+    -fx-background-size: cover;
+    -fx-background-position: center;
 }
-
-
-
-

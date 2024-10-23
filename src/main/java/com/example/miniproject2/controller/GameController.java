@@ -73,7 +73,7 @@ public class GameController implements ITimer, IFields {
     }
 
     public void updateLabel() {
-        timerLabel.setText("Time: " + secondsPassed + "s");
+        timerLabel.setText("Tiempo: " + secondsPassed + "s");
     }
 
     public void stopTimer() {
@@ -224,6 +224,7 @@ public class GameController implements ITimer, IFields {
     }
 
     public void handleRestart(ActionEvent event){
+        stopTimer();
         game = new Game();
         textFields = new ArrayList<>();
         secondsPassed = 0;
