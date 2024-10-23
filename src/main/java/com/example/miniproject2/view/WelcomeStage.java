@@ -45,6 +45,7 @@ public class WelcomeStage extends Stage {
         alert.setContentText("Perderá el progreso actual.");
         if (alert.showAndWait().get() == ButtonType.OK) {
             WelcomeStageHolder.INSTANCE.close();
+            WelcomeStageHolder.INSTANCE = null;
         }
     }
 

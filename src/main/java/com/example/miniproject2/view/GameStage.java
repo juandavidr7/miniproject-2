@@ -50,6 +50,7 @@ public class GameStage extends Stage {
         alert.setContentText("Perderá el progreso actual.");
         if (alert.showAndWait().get() == ButtonType.OK) {
             GameStage.GameStageHolder.INSTANCE.close();
+            GameStage.GameStageHolder.INSTANCE = null;
         }
     }
 

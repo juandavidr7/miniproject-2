@@ -6,5 +6,5 @@ public interface IFields {
 
     void createTextFields();
     void insertNumberIntoActiveTextField(int number);
-    void validateAndColorField(TextField textField, int num, int num2, int num3);
+    void validateAndColorFields(TextField textField, int i, int j, int num);
 }

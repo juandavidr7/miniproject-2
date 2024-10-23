@@ -23,7 +23,7 @@ public class Board {
         while (j < 6) {
             Random rand = new Random();
             int num = 1 + rand.nextInt(6);
-            while ((checkColum(randomMatrix, num, i, j) || checkRow(randomMatrix, num, i)) || checkBox(randomMatrix, num, i, j)) {
+            while ((checkColum(randomMatrix, num, i, j) || checkRow(randomMatrix, num, i, j)) || checkBox(randomMatrix, num, i, j)) {
                 num = 1 + rand.nextInt(6);
                 if (!isAnyNumPosible(i, j)) {
                     randomMatrix.get(i).clear();
@@ -43,6 +43,9 @@ public class Board {
         int start_col = 3 * (j / 3);
         for (int row = start_row; row < start_row + 2; row++) {
             for (int col = start_col; col < start_col + 3; col++) {
+                if (row == i && col == j){
+                    continue;
+                }
                 if (randomMatrix.get(row).get(col) == num) {
                     return true;
                 }
@@ -53,6 +56,9 @@ public class Board {
 
     public static boolean checkColum(ArrayList<ArrayList<Integer>> randomMatrix, int num, int i, int j) {
         for (int row = 0; row < 6; row++) {
+            if (row == i ){
+                continue;
+            }
             if (num == randomMatrix.get(row).get(j)) {
                 return true;
             }
@@ -60,8 +66,11 @@ public class Board {
         return false;
     }
 
-    public static boolean checkRow(ArrayList<ArrayList<Integer>> randomMatrix, int num, int i) {
+    public static boolean checkRow(ArrayList<ArrayList<Integer>> randomMatrix, int num, int i, int j) {
         for (int col = 0; col < 6; col++) {
+            if (col == j){
+                continue;
+            }
             if (num == randomMatrix.get(i).get(col)) {
                 return true;
             }
@@ -71,7 +80,7 @@ public class Board {
 
     public boolean isAnyNumPosible(int i, int j) {
         for (int num = 1; num < 7; num++) {
-            if (!((checkColum(randomMatrix, num, i, j) || checkRow(randomMatrix, num, i)) || checkBox(randomMatrix, num, i, j))) {
+            if (!((checkColum(randomMatrix, num, i, j) || checkRow(randomMatrix, num, i, j)) || checkBox(randomMatrix, num, i, j))) {
                 return true;
             }
         }
@@ -79,7 +88,7 @@ public class Board {
     }
 
     public static boolean verifyNum(ArrayList<ArrayList<Integer>> matrix, int num, int i, int j){
-        return !((checkColum(matrix, num, i, j) || checkRow(matrix, num, i)) || checkBox(matrix, num, i, j));
+        return !((checkColum(matrix, num, i, j) || checkRow(matrix, num, i, j)) || checkBox(matrix, num, i, j));
     }
 
     public ArrayList<ArrayList<Integer>> getRandomMatrix(){

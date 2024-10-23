@@ -12,6 +12,7 @@ public class Game {
     public Game() {
         solvedBoard = board.getRandomMatrix();
         actualBoard = copy(solvedBoard);
+        show(solvedBoard);
         setActualBoard();
     }
 
@@ -22,12 +23,7 @@ public class Game {
             setBlanks(actualBoard);
             ArrayList<ArrayList<Integer>> actualBoardCopy = copy(actualBoard);
             solveActualBoard(actualBoardCopy);
-
-            show(actualBoard);
-            System.out.println(actualBoardSolutions);
         } while (actualBoardSolutions != 1);
-
-        show(actualBoard);
     }
 
     public void setBlanks(ArrayList<ArrayList<Integer>> matrix) {
