@@ -50,10 +50,10 @@ public class GameController implements ITimer, IFields {
 
     private GridPane[][] gridPanes;
     private final String[][] messages = {
-            {"El numero ingresado es correcto :D", "Genial, parece que vas por buen camino...", "Excelente elección"},
-            {"No, no, no, ese número no pertenece aquí", "Lo lamento, el número es incorrecto", "Creo que puedes hacerlo mejor"},
-            {"Aquí tienes, una ayudita...", "Y que tal si haces esto...", "Sabía que no podías hacerlo solo"},
-            {"Lo lamento amigo, no te quedan más ayudas", "Ahora tendrás que continuar sin mi", "¿Más ayudas? Pero si ya te he dado tres!!"},
+            {"¡Excelente! Esa es la pieza que faltaba", "¡Así se hace! Cada vez más cerca.", "¡Correcto! Continúa con esa lógica.", "¡Bien visto! Ese número encaja perfecto.", "¡Buen movimiento! Vas por buen camino.", "¡Buen movimiento! Vas por buen camino.", "¡Perfecto! Tu razonamiento es impecable.", "¡Correcto! Sigues sumando puntos a tu favor.", "¡Buen ojo! Eso es justo lo que necesitaba.","¡Impecable! Sigue así, estás en racha.", "El numero ingresado es correcto :D", "Genial, parece que vas por buen camino...", "Excelente elección"},
+            {"¡Vaya! Ese número no encaja, pero sigue intentando.", "No es el número correcto, prueba otra opción.", "Inténtalo de nuevo, ese número no es correcto.", "Ese número no va ahí, ¡pero no te desanimes!", "Ups, no es el número adecuado, ¡sigue buscando!", "Un pequeño error, ¡lo resolverás en un momento!", "Ese número no es el correcto, sigue concentrado.", "¡Casi! Pero ese no es el número correcto.", "No es el número correcto, pero estás cerca.", "Esa no es la solución, pero lo lograrás en breve.", "No, no, no, ese número no pertenece aquí", "Lo lamento, el número es incorrecto", "Creo que puedes hacerlo mejor"},
+            {"Aquí tienes una pista, úsala sabiamente.", "¡Ayuda activada! Esta podría ser la clave.", "Pista obtenida. ¡Adelante, resuelve el enigma!", "Esta ayuda te acerca un poco más a la victoria.", "Aquí tienes un pequeño empujón, sigue adelante.", "¡Pista revelada! Aprovecha este momento.", "Una ayuda más... úsala con cuidado.", "Te damos una pista, ¡todo depende de ti ahora!", "Esta pista podría hacer la diferencia.", "¡Una ayuda más para continuar tu racha ganadora!", "Aquí tienes, una ayudita...", "Y que tal si haces esto...", "Sabía que no podías hacerlo solo"},
+            {"Las ayudas se agotaron, es hora de confiar en tu habilidad.", "Ya no quedan más pistas, el resto es tuyo.", "Sin más ayudas, ¡pero puedes lograrlo solo!", "No más ayudas disponibles, ahora tu lógica es tu mejor aliada.", "Las pistas se acabaron, pero la solución está en tus manos.", "Ayudas agotadas, ¡confía en ti mismo!", "Se acabaron las pistas, es el momento de resolverlo.", "Las ayudas llegaron a su fin, ahora es todo tuyo.", "Sin más ayudas... pero ya tienes lo que necesitas.", "No más pistas disponibles, ¡pero confío en que lo lograrás!", "Lo lamento amigo, no te quedan más ayudas", "Ahora tendrás que continuar sin mi", "¿Más ayudas? Pero si ya te he dado tres!!"},
             {"Espectacular!! Has ganado", "Felicidades, has vencido el juego", "Lo hiciste increible, ¿qué tal otra ronda?"}
     };
     private int secondsPassed = 0;
@@ -138,7 +138,7 @@ public class GameController implements ITimer, IFields {
                         gridPanes[blockRow][blockCol].add(txt, col, row);
                         textFields.get(i).add(txt);
                         txt.setOnMouseClicked(event -> activeTextField = txt);
-                        onKeyTxtTyped(txt, i, j);
+                        handleTxtFields(txt, i, j);
                     }
                 }
 
@@ -148,7 +148,7 @@ public class GameController implements ITimer, IFields {
         }
     }
 
-    private void onKeyTxtTyped(TextField txt, int row, int col) {
+    private void handleTxtFields(TextField txt, int row, int col) {
         txt.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, "")){
                 validateAndColorFields(txt, row, col, 0, false);
@@ -297,6 +297,7 @@ public class GameController implements ITimer, IFields {
                 gridPanes[i][j].getChildren().clear();
             }
         }
+        helpButton.setDisable(false);
         createTextFields();
         startTimer();
         setButtonEvents();
@@ -343,13 +344,13 @@ public class GameController implements ITimer, IFields {
         String currentMessage = "";
 
         if (Objects.equals(type, "correct")){
-            currentMessage = messages[0][new Random().nextInt(3)];
+            currentMessage = messages[0][new Random().nextInt(13)];
         } else if (Objects.equals(type, "incorrect")) {
-            currentMessage = messages[1][new Random().nextInt(3)];
+            currentMessage = messages[1][new Random().nextInt(13)];
         } else if (Objects.equals(type, "help")){
-            currentMessage = messages[2][new Random().nextInt(3)];
+            currentMessage = messages[2][new Random().nextInt(13)];
         } else if (Objects.equals(type, "noHelpsLeft")){
-            currentMessage = messages[3][new Random().nextInt(3)];
+            currentMessage = messages[3][new Random().nextInt(13)];
         } else if (Objects.equals(type, "win")){
             currentMessage = messages[4][new Random().nextInt(3)];
         }

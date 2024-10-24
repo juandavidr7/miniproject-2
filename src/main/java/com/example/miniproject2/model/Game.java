@@ -3,7 +3,7 @@ package com.example.miniproject2.model;
 import java.sql.Struct;
 import java.util.*;
 
-public class Game {
+public class Game extends AGame {
     private final Board board = new Board();
     private ArrayList<ArrayList<Integer>> solvedBoard = new ArrayList<>();
     private ArrayList<ArrayList<Integer>> actualBoard = new ArrayList<>();

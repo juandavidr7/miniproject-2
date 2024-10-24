@@ -6,8 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class GameStage extends Stage {
@@ -24,8 +24,9 @@ public class GameStage extends Stage {
         setWidth(920);
         setHeight(700);
         setResizable(false);
+        getIcons().add(new Image(String.valueOf(
+                getClass().getResource("/com/example/miniproject2/images/favicon.png"))));
 
-        // setIcon and other properties
         setOnCloseRequest(windowEvent -> {
             windowEvent.consume();
             deletedInstance();
