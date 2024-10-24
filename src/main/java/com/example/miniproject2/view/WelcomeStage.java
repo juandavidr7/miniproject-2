@@ -14,7 +14,7 @@ public class WelcomeStage extends Stage {
     private WelcomeController welcomeController;
 
     public WelcomeStage() throws IOException{
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproject2/fxml/welcome.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/miniproject2/fxml/welcome-view.fxml"));
         Parent root = loader.load();
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("/com/example/miniproject2/styles/styleWelcomeStage.css").toExternalForm());

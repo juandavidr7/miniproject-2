@@ -15,7 +15,6 @@
 }
 
 .button-styles:hover {
-
     -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 15, 0.8 , 0 , 0 );
     -fx-cursor: hand;
     -fx-scale-x: 1.1;

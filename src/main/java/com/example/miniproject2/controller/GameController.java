@@ -42,6 +42,8 @@ public class GameController implements ITimer, IFields {
     @FXML
     private ScrollPane scrollPane;
     @FXML
+    private GridPane mainGridPane;
+    @FXML
     private GridPane boardGrid1, boardGrid2, boardGrid3, boardGrid4, boardGrid5, boardGrid6;
 
     private GridPane[][] gridPanes;
@@ -305,6 +307,33 @@ public class GameController implements ITimer, IFields {
 
     public void handleWinEvent(){
         showMessage("win");
+        mainGridPane.getChildren().removeIf(node -> {
+                    Integer nodeColumn = GridPane.getColumnIndex(node);
+                    Integer nodeRow = GridPane.getRowIndex(node);
+
+                    nodeColumn = (nodeColumn == null) ? -1 : nodeColumn;
+                    nodeRow = (nodeRow == null) ? -1 : nodeRow;
+
+                    return nodeColumn == 1 && nodeRow == 2;
+                }
+        );
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 6; j++){
+                textFields.get(i).get(j).setDisable(true);
+            }
+        }
+        stopTimer();
+        Label winLabel = new Label("HAS GANADO!!");
+        winLabel.setStyle("-fx-background-color: transparent;" +
+                "-fx-font-size: 50px;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-family: 'Arial', sans-serif;" +
+                "-fx-font-weight: bold;" +
+                "-fx-alignment: center;" +
+                "-fx-text-alignment: center;" +
+                "-fx-border-color: transparent;" +
+                "-fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );");
+        mainGridPane.add(winLabel,1 , 2);
     }
 
     public void showMessage(String type){
