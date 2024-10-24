@@ -8,12 +8,15 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 import javax.swing.*;
@@ -29,31 +32,24 @@ public class GameController implements ITimer, IFields {
     @FXML
     private Label timerLabel;
     @FXML
-    private Button exitButton;
-    @FXML
-    private Button restartButton;
-    @FXML
-    private Button helButton;
-    @FXML
-    private Button button1;
-    @FXML
-    private Button button2;
-    @FXML
-    private Button button3;
-    @FXML
-    private Button button4;
-    @FXML
-    private Button button5;
-    @FXML
-    private Button button6;
+    private Button button1, button2, button3, button4, button5, button6;
     @FXML
     private Button buttonStartTime;
     @FXML
-    private Label messagesLabel;
+    private VBox messagesBox;
     @FXML
     private Label helpsLabel;
+    @FXML
+    private ScrollPane scrollPane;
+    @FXML
+    private GridPane mainGridPane;
+    @FXML
+    private GridPane boardGrid1, boardGrid2, boardGrid3, boardGrid4, boardGrid5, boardGrid6;
+    @FXML
+    private Button helpButton;
 
-    private final String[][] messagesBox = {
+    private GridPane[][] gridPanes;
+    private final String[][] messages = {
             {"El numero ingresado es correcto :D", "Genial, parece que vas por buen camino...", "Excelente elección"},
             {"No, no, no, ese número no pertenece aquí", "Lo lamento, el número es incorrecto", "Creo que puedes hacerlo mejor"},
             {"Aquí tienes, una ayudita...", "Y que tal si haces esto...", "Sabía que no podías hacerlo solo"},
@@ -69,7 +65,15 @@ public class GameController implements ITimer, IFields {
 
     @FXML
     public void initialize() {
-        messagesLabel.setWrapText(true);
+        for (int i = 0; i < 6; i++){
+            textFields.add(new ArrayList<>());
+        }
+        gridPanes = new GridPane[][]{
+                {boardGrid1, boardGrid2},
+                {boardGrid3, boardGrid4},
+                {boardGrid5, boardGrid6}};
+        scrollPane.setFitToWidth(true);
+        messagesBox.setFillWidth(true);
         createTextFields();
         startTimer();
         setButtonEvents();
@@ -101,40 +105,45 @@ public class GameController implements ITimer, IFields {
     @Override
     public void createTextFields() {
         boardGrid.getChildren().clear();
-        textFields.clear();
-        for (int i = 0; i < 6; i++) {
-            textFields.add(new ArrayList<>());
-            for (int j = 0; j < 6; j++) {
-                TextField txt = new TextField();
-                txt.setPrefWidth(100);
-                txt.setPrefHeight(90);
-                txt.setStyle("-fx-font-size: 25px;" +
-                        "-fx-font-weight: bold;" +
-                        "-fx-text-fill: white;" +
-                        "-fx-background-color: transparent;" +
-                        "-fx-border-color: white;" +
-                        "-fx-border-width: 3px;" +
-                        "-fx-text-alignment: center;");
+        for (int blockRow = 0; blockRow < 3; blockRow++) {
+            for (int blockCol = 0; blockCol < 2; blockCol++) {
+                for (int row = 0; row < 2; row++) {
+                    for (int col = 0; col < 3; col++) {
+                        int i = blockRow * 2 + row;
+                        int j = blockCol * 3 + col;
 
-                // Colocar valor del tablero, si lo tiene
-                Integer individualValue = game.getActualBoard().get(i).get(j);
-                if (individualValue != 0) {
-                    txt.setText(individualValue.toString());
-                    txt.setDisable(true);
-                    txt.setStyle(txt.getStyle() +
-                            "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
-                            "-fx-background-color: lightgreen;" + // Fondo verde claro
-                            // Borde verde
-                            "-fx-border-width: 2px;" +
-                            "-fx-border-radius: 5px;");
+                        TextField txt = new TextField();
+                        txt.setPrefWidth(100);
+                        txt.setPrefHeight(90);
+                        txt.setStyle("-fx-font-size: 25px;" +
+                                "-fx-font-weight: bold;" +
+                                "-fx-text-fill: white;" +
+                                "-fx-background-color: transparent;" +
+                                "-fx-border-color: white;" +
+                                "-fx-border-width: 1px;" +
+                                "-fx-text-alignment: center;");
+
+                        Integer individualValue = game.getActualBoard().get(i).get(j);
+                        if (individualValue != 0) {
+                            txt.setText(individualValue.toString());
+                            txt.setDisable(true);
+                            txt.setStyle(txt.getStyle() +
+                                    "-fx-text-fill: darkgreen;" +
+                                    "-fx-background-color: lightgreen;" +
+                                    "-fx-border-color: green;" +
+                                    "-fx-border-width: 2px;" +
+                                    "-fx-border-radius: 5px;");
+                        }
+
+                        gridPanes[blockRow][blockCol].add(txt, col, row);
+                        textFields.get(i).add(txt);
+                        txt.setOnMouseClicked(event -> activeTextField = txt);
+                        onKeyTxtTyped(txt, i, j);
+                    }
                 }
 
-
-                boardGrid.add(txt, j, i);
-                textFields.get(i).add(txt);
-
-                txt.setOnMouseClicked(event -> activeTextField = txt);
-                onKeyTxtTyped(txt, i, j);
+                gridPanes[blockRow][blockCol].setStyle("-fx-border-color: white; -fx-border-width: 5px; -fx-border-radius: 2px;");
+                boardGrid.add(gridPanes[blockRow][blockCol], blockCol, blockRow);
             }
         }
     }
@@ -142,7 +151,7 @@ public class GameController implements ITimer, IFields {
     private void onKeyTxtTyped(TextField txt, int row, int col) {
         txt.textProperty().addListener((observable, oldValue, newValue) -> {
             if (Objects.equals(newValue, "")){
-                game.getActualBoard().get(row).set(col, 0);
+                validateAndColorFields(txt, row, col, 0, false);
                 textFields.get(row).get(col).setStyle("-fx-font-size: 25px;" +
                         "-fx-font-weight: bold;" +
                         "-fx-text-fill: white;" +
@@ -160,7 +169,7 @@ public class GameController implements ITimer, IFields {
                 if (Character.isDigit(c)) {
                     int num = Character.getNumericValue(c);
                     if (num >= 1 && num <= 6) {
-                        validateAndColorFields(txt, row, col, num);
+                        validateAndColorFields(txt, row, col, num, false);
                     } else {
                         txt.clear();
                     }
@@ -197,16 +206,21 @@ public class GameController implements ITimer, IFields {
                 }
             }
             activeTextField.setText(String.valueOf(number));
-            validateAndColorFields(activeTextField, row, col, number);
+            validateAndColorFields(activeTextField, row, col, number, false);
         }
     }
 
     @Override
-    public void validateAndColorFields(TextField txt, int row, int col, int number) {
+    public void validateAndColorFields(TextField txt, int row, int col, int number, boolean isClue) {
         game.getActualBoard().get(row).set(col, number);
 
-        // Comparar con la matriz original
-        int originalNumber = game.getSolvedBoard().get(row).get(col);
+        if (number != 0 && !isClue) {
+            if (Board.verifyNum(game.getActualBoard(), number, row, col)) {
+                showMessage("correct");
+            } else {
+                showMessage("incorrect");
+            }
+        }
 
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
@@ -214,31 +228,24 @@ public class GameController implements ITimer, IFields {
                 if (temp == 0 || textFields.get(i).get(j).isDisabled()) {
                     continue;
                 }
-                if (temp == originalNumber) {
-                    // Estilo para número correcto
+                if (Board.verifyNum(game.getActualBoard(), temp, i, j)) {
                     textFields.get(i).get(j).setStyle("-fx-font-size: 25px;" +
                             "-fx-font-weight: bold;" +
-                            "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
-                            "-fx-background-color: lightgreen;" + // Fondo verde claro
-                             // Borde verde
+                            "-fx-text-fill: darkgreen;" +
+                            "-fx-background-color: lightgreen;" +
+                            "-fx-border-color: green;" +
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
-
-                    // Deshabilitar el TextField para que no pueda ser modificado
-                    textFields.get(i).get(j).setDisable(true);
-                    messagesLabel.setText(messagesBox[0][new Random().nextInt(3)]);
                 } else {
-                    // Estilo para número incorrecto
                     textFields.get(i).get(j).setStyle("-fx-font-size: 25px;" +
                             "-fx-font-weight: bold;" +
-                            "-fx-text-fill: darkred;" + // Texto en rojo oscuro
-                            "-fx-background-color: lightcoral;" + // Fondo rojo claro
-                              // Borde rojo
+                            "-fx-text-fill: darkred;" +
+                            "-fx-background-color: lightcoral;" +
+                            "-fx-border-color: red;" +
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
-                    messagesLabel.setText(messagesBox[1][new Random().nextInt(3)]);
                 }
             }
         }
@@ -247,9 +254,6 @@ public class GameController implements ITimer, IFields {
             handleWinEvent();
         }
     }
-
-
-
 
     public void handleHelp(ActionEvent event) {
         if (helpsLeft > 0) {
@@ -266,34 +270,93 @@ public class GameController implements ITimer, IFields {
             txt.setText(Integer.toString(num));
             helpsLeft--;
             helpsLabel.setText("Ayudas restantes: " + helpsLeft);
-            validateAndColorFields(txt, i, j, num);
-            messagesLabel.setText(messagesBox[2][new Random().nextInt(3)]);
+            showMessage("help");
+            validateAndColorFields(txt, i, j, num, true);
         } else{
-            messagesLabel.setText(messagesBox[3][new Random().nextInt(3)]);
+            showMessage("noHelpsLeft");
         }
     }
 
     public void handleExit(ActionEvent event) throws IOException {
         GameStage.deletedInstance();
-        WelcomeStage.getInstance();
     }
 
-    public void handleRestart(ActionEvent event){
+    public void handleRestart(ActionEvent event) {
         stopTimer();
-        helpsLabel.setText("Ayudas restantes: 3");
         game = new Game();
-        textFields = new ArrayList<>();
+        helpsLabel.setText("Ayudas restantes: 3");
+        helpsLeft = 3;
         secondsPassed = 0;
         activeTextField = null;
-        helpsLeft = 3;
-        boardGrid.getChildren().clear();
-        textFields.clear();
+        textFields = new ArrayList<>();
+        for (int i = 0; i < 6; i++){
+            textFields.add(new ArrayList<>());
+        }
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 2; j++){
+                gridPanes[i][j].getChildren().clear();
+            }
+        }
         createTextFields();
         startTimer();
         setButtonEvents();
     }
 
+    public void handleBackToMenu(ActionEvent event) throws  IOException{
+        GameStage.closeInstance();
+        WelcomeStage.getInstance();
+    }
+
     public void handleWinEvent(){
-        messagesLabel.setText(messagesBox[4][new Random().nextInt(3)] + "\n");
+        showMessage("win");
+        mainGridPane.getChildren().removeIf(node -> {
+                    Integer nodeColumn = GridPane.getColumnIndex(node);
+                    Integer nodeRow = GridPane.getRowIndex(node);
+
+                    nodeColumn = (nodeColumn == null) ? -1 : nodeColumn;
+                    nodeRow = (nodeRow == null) ? -1 : nodeRow;
+
+                    return nodeColumn == 1 && nodeRow == 2;
+                }
+        );
+        for (int i = 0; i < 6; i++){
+            for (int j = 0; j < 6; j++){
+                textFields.get(i).get(j).setDisable(true);
+            }
+        }
+        stopTimer();
+        Label winLabel = new Label("HAS GANADO!!");
+        winLabel.setStyle("-fx-background-color: transparent;" +
+                "-fx-font-size: 50px;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-family: 'Arial', sans-serif;" +
+                "-fx-font-weight: bold;" +
+                "-fx-alignment: center;" +
+                "-fx-text-alignment: center;" +
+                "-fx-border-color: transparent;" +
+                "-fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );");
+        mainGridPane.add(winLabel,1 , 2);
+        helpButton.setDisable(true);
+    }
+
+    public void showMessage(String type){
+        String currentMessage = "";
+
+        if (Objects.equals(type, "correct")){
+            currentMessage = messages[0][new Random().nextInt(3)];
+        } else if (Objects.equals(type, "incorrect")) {
+            currentMessage = messages[1][new Random().nextInt(3)];
+        } else if (Objects.equals(type, "help")){
+            currentMessage = messages[2][new Random().nextInt(3)];
+        } else if (Objects.equals(type, "noHelpsLeft")){
+            currentMessage = messages[3][new Random().nextInt(3)];
+        } else if (Objects.equals(type, "win")){
+            currentMessage = messages[4][new Random().nextInt(3)];
+        }
+        Label message = new Label(currentMessage);
+        message.setWrapText(true);
+        messagesBox.getChildren().add(message);
+        scrollPane.layout();
+        scrollPane.setVvalue(1.0);
     }
 }
