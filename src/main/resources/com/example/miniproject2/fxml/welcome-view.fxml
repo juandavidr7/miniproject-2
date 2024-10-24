@@ -18,12 +18,12 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" styleClass="button-styles" text="Settings">
+            <Button mnemonicParsing="false" onAction="#OnShowInstruccion" styleClass="button-styles" text="Instruccion">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#OnShowInstruccion" styleClass="button-styles" text="Instruccion">
+            <Button mnemonicParsing="false" onAction="#OnShowCredits" styleClass="button-styles" text="Credits">
                <VBox.margin>
                   <Insets bottom="15.0" />
                </VBox.margin>
