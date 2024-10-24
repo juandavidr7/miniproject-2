@@ -47,6 +47,10 @@ public class GameController implements ITimer, IFields {
     private GridPane boardGrid1, boardGrid2, boardGrid3, boardGrid4, boardGrid5, boardGrid6;
     @FXML
     private Button helpButton;
+    @FXML
+    private Button restartButton;
+
+    private Label winLabel;
 
     private GridPane[][] gridPanes;
     private final String[][] messages = {
@@ -77,6 +81,8 @@ public class GameController implements ITimer, IFields {
         createTextFields();
         startTimer();
         setButtonEvents();
+        winLabel = new Label();
+
     }
 
     public void startTimer() {
@@ -297,9 +303,14 @@ public class GameController implements ITimer, IFields {
                 gridPanes[i][j].getChildren().clear();
             }
         }
-        createTextFields();
-        startTimer();
+
+        resetTimer();
         setButtonEvents();
+        winLabel.setText("");
+        initialize();
+        helpButton.setDisable(false);
+
+
     }
 
     public void handleBackToMenu(ActionEvent event) throws  IOException{
@@ -325,7 +336,7 @@ public class GameController implements ITimer, IFields {
             }
         }
         stopTimer();
-        Label winLabel = new Label("HAS GANADO!!");
+        winLabel.setText("¡¡¡HAS GANADO!!!");
         winLabel.setStyle("-fx-background-color: transparent;" +
                 "-fx-font-size: 50px;" +
                 "-fx-text-fill: white;" +
@@ -337,6 +348,7 @@ public class GameController implements ITimer, IFields {
                 "-fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );");
         mainGridPane.add(winLabel,1 , 2);
         helpButton.setDisable(true);
+        restartButton.setDisable(true);
     }
 
     public void showMessage(String type){

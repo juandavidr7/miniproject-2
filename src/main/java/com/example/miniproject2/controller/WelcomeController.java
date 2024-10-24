@@ -62,12 +62,13 @@ public class WelcomeController {
                 "-fx-padding: 10px;");     // Padding around the text
 
         // Create labels for each instruction
-        Label instructionLabel1 = new Label("1. Adivina la palabra secreta ingresando una letra a la vez.");
-        Label instructionLabel2 = new Label("2. Usa las pistas, pero solo tres veces.");
-        Label instructionLabel3 = new Label("3. Cada error eclipsa el sol un poco más.");
-        Label instructionLabel4 = new Label("4. Tienes cinco intentos antes de que el sol se eclipse por completo.");
-        Label instructionLabel5 = new Label("5. Adivina todas las letras antes del eclipse para ganar.");
-        Label instructionLabel6 = new Label("6. Si no adivinas antes del eclipse total, pierdes.");
+        Label instructionLabel1 = new Label("1. Completa la cuadrícula 6x6 con los números del 1 al 6.");
+        Label instructionLabel2 = new Label("2. Asegúrate de que cada fila contenga todos los números del 1 al 6 sin repetir.");
+        Label instructionLabel3 = new Label("3. Asegúrate de que cada columna contenga todos los números del 1 al 6 sin repetir.");
+        Label instructionLabel4 = new Label("4. Asegúrate de que cada subcuadrícula 2x3 contenga todos los números del 1 al 6 sin repetir.");
+        Label instructionLabel5 = new Label("5. Solo se muestran algunos números de antemano. Llena los espacios vacíos correctamente.");
+        Label instructionLabel6 = new Label("6. Gana completando la cuadrícula siguiendo las reglas sin errores.");
+
 
         // Set style for instruction labels
         instructionLabel1.setStyle("-fx-text-fill: white;");
@@ -81,7 +82,7 @@ public class WelcomeController {
         Button closeButton = new Button("Cerrar");
         closeButton.setOnAction(e -> instructionStage.close());
         closeButton.setStyle(
-                "-fx-background-color: red;" +         // Red background
+                "-fx-background-color: #55ff00;" +         // Red background
                         "-fx-text-fill: white;" +              // White text
                         "-fx-font-weight: bold;" +             // Bold font
                         "-fx-font-size: 14px;" +               // Font size
@@ -95,11 +96,11 @@ public class WelcomeController {
         // Create layout for instructions and the close button
         VBox layout = new VBox(10);
         layout.getChildren().addAll(titleLabel, instructionLabel1, instructionLabel2, instructionLabel3, instructionLabel4, instructionLabel5, instructionLabel6, closeButton);
-        layout.setStyle("-fx-background-color: #FF8A00;"); // Dark background to highlight text
+        layout.setStyle("-fx-background-color: rgba(0,0,0,0.4);"); // Dark background to highlight text
         layout.setAlignment(Pos.CENTER);
 
         // Create scene and set it to the instruction stage
-        Scene scene = new Scene(layout, 400, 300);
+        Scene scene = new Scene(layout, 500, 350);
         instructionStage.setScene(scene);
 
         // Show the instruction stage
@@ -125,8 +126,8 @@ public class WelcomeController {
                 "-fx-padding: 10px;");     // Padding around the text
 
         // Create labels for credits information
-        Label creditLabel1 = new Label("Desarrollado por: Juan David Rincón");
-        Label creditLabel2 = new Label("Código: 202342032");
+        Label creditLabel1 = new Label("Desarrollado por: Juan Sebástian Sierra y Juan David Rincón");
+        Label creditLabel2 = new Label("Códigos: 202342032");
         Label creditLabel3 = new Label("Correo: juan.rincon.lopez@correounivalle.edu.co");
         Label creditLabel4 = new Label("Materia: Programación Orientada a Eventos - 2024-2");
 
@@ -140,7 +141,7 @@ public class WelcomeController {
         Button closeButton = new Button("Cerrar");
         closeButton.setOnAction(e -> creditsStage.close());
         closeButton.setStyle(
-                "-fx-background-color: red;" +         // Red background
+                "-fx-background-color: #55ff00;" +         // Red background
                         "-fx-text-fill: white;" +              // White text
                         "-fx-font-weight: bold;" +             // Bold font
                         "-fx-font-size: 14px;" +               // Font size
@@ -154,7 +155,7 @@ public class WelcomeController {
         // Create layout for credits and the close button
         VBox layout = new VBox(10);
         layout.getChildren().addAll(titleLabel, creditLabel1, creditLabel2, creditLabel3, creditLabel4, closeButton);
-        layout.setStyle("-fx-background-color: #FF8A00;"); // Dark background to highlight text
+        layout.setStyle("-fx-background-color: rgba(0,0,0,0.4);"); // Dark background to highlight text
         layout.setAlignment(Pos.CENTER);
 
         // Create scene and set it to the credits stage
