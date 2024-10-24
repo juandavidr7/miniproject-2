@@ -113,7 +113,7 @@ public class GameController implements ITimer, IFields {
                         "-fx-text-fill: white;" +
                         "-fx-background-color: transparent;" +
                         "-fx-border-color: white;" +
-                        "-fx-border-width: 1px;" +
+                        "-fx-border-width: 3px;" +
                         "-fx-text-alignment: center;");
 
                 // Colocar valor del tablero, si lo tiene
@@ -124,10 +124,11 @@ public class GameController implements ITimer, IFields {
                     txt.setStyle(txt.getStyle() +
                             "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
                             "-fx-background-color: lightgreen;" + // Fondo verde claro
-                            "-fx-border-color: green;" + // Borde verde
+                            // Borde verde
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;");
                 }
+
 
                 boardGrid.add(txt, j, i);
                 textFields.get(i).add(txt);
@@ -219,7 +220,7 @@ public class GameController implements ITimer, IFields {
                             "-fx-font-weight: bold;" +
                             "-fx-text-fill: darkgreen;" + // Texto en verde oscuro
                             "-fx-background-color: lightgreen;" + // Fondo verde claro
-                            "-fx-border-color: green;" + // Borde verde
+                             // Borde verde
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
@@ -233,7 +234,7 @@ public class GameController implements ITimer, IFields {
                             "-fx-font-weight: bold;" +
                             "-fx-text-fill: darkred;" + // Texto en rojo oscuro
                             "-fx-background-color: lightcoral;" + // Fondo rojo claro
-                            "-fx-border-color: red;" + // Borde rojo
+                              // Borde rojo
                             "-fx-border-width: 2px;" +
                             "-fx-border-radius: 5px;" +
                             "-fx-text-alignment: center;");
