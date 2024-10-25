@@ -25,7 +25,7 @@
    <children>
       <AnchorPane prefHeight="651.0" prefWidth="102.0" GridPane.halignment="CENTER" GridPane.rowSpan="3">
          <children>
-            <Label fx:id="timerLabel" alignment="CENTER" layoutX="9.0" layoutY="36.0" prefHeight="94.0" prefWidth="141.0" text="00:00">
+            <Label id="timerLabel" fx:id="timerLabel" alignment="CENTER" layoutX="9.0" layoutY="36.0" prefHeight="94.0" prefWidth="141.0" text="00:00">
                <font>
                   <Font size="16.0" />
                </font>

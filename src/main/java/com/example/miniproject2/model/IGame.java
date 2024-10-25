@@ -1,22 +1,67 @@
 package com.example.miniproject2.model;
 
 import java.util.ArrayList;
-import java.util.Random;
 
+/**
+ * The {@code IGame} interface defines the contract for Sudoku game implementations.
+ * It outlines the essential methods that any game class must implement to manage
+ * the state and operations of a Sudoku game.
+ */
 public interface IGame {
-    public void setActualBoard();
 
-    public void setBlanks(ArrayList<ArrayList<Integer>> matrix);
+    /**
+     * Sets the actual board with the current state of the game.
+     */
+    void setActualBoard();
 
-    public ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> board);
+    /**
+     * Sets blank positions in the specified matrix to create a playable Sudoku board.
+     *
+     * @param matrix The matrix representing the Sudoku board.
+     */
+    void setBlanks(ArrayList<ArrayList<Integer>> matrix);
 
-    public boolean solveActualBoard(ArrayList<ArrayList<Integer>> actualBoard);
+    /**
+     * Creates a copy of the provided board.
+     *
+     * @param board The board to copy.
+     * @return A copy of the provided board.
+     */
+    ArrayList<ArrayList<Integer>> copy(ArrayList<ArrayList<Integer>> board);
 
-    public boolean isSolved();
+    /**
+     * Attempts to solve the current state of the actual board.
+     *
+     * @param actualBoard The current state of the board to solve.
+     * @return {@code true} if the board was successfully solved, {@code false} otherwise.
+     */
+    boolean solveActualBoard(ArrayList<ArrayList<Integer>> actualBoard);
 
-    public ArrayList<ArrayList<Integer>> getSolvedBoard();
+    /**
+     * Checks if the current Sudoku puzzle is solved.
+     *
+     * @return {@code true} if the puzzle is solved, {@code false} otherwise.
+     */
+    boolean isSolved();
 
-    public ArrayList<ArrayList<Integer>> getActualBoard();
+    /**
+     * Retrieves the solved board configuration.
+     *
+     * @return An ArrayList representing the solved board.
+     */
+    ArrayList<ArrayList<Integer>> getSolvedBoard();
 
-    public void show(ArrayList<ArrayList<Integer>> board);
+    /**
+     * Retrieves the current state of the actual board.
+     *
+     * @return An ArrayList representing the actual board.
+     */
+    ArrayList<ArrayList<Integer>> getActualBoard();
+
+    /**
+     * Displays the specified board on the console.
+     *
+     * @param board The board to display.
+     */
+    void show(ArrayList<ArrayList<Integer>> board);
 }
