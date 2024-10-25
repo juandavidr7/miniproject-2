@@ -1,0 +1,102 @@
+.root {
+    -fx-background-image: url("../images/background.png");
+    -fx-background-size: cover;
+    -fx-background-position: center;
+}
+
+.button-styles {
+    -fx-pref-width: 200px;
+    -fx-pref-height: 50px;
+    -fx-font-size: 20px;
+}
+
+Button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+    -fx-border-color: #003300;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
+
+Button:hover {
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 15, 0.8 , 0 , 0 );
+    -fx-cursor: hand;
+}
+
+.button-styles:pressed {
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 1) , 20, 0.9 , 0 , 0 );
+}
+
+#buttonStartTime{
+    -fx-pref-height: 200px;
+    -fx-background-image: url("../images/start.png");
+    -fx-background-size: contain;
+    -fx-background-color: none;
+    -fx-background-repeat: no-repeat;
+}
+
+#timerLabel {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-border-color: black;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
+
+#helpsLabel {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-font-family: 'Arial', sans-serif;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
+
+
+#boardGrid {
+    -fx-background-color: linear-gradient(to bottom, rgba(30, 30, 30, 0.9), rgba(20, 20, 20, 0.9)); /* Fondo oscuro con un poco de transparencia */
+    -fx-border-width: 3px;
+    -fx-background-insets: 5;
+    -fx-padding: 5;
+}
+
+#boardGrid .text-field {
+    -fx-background-color: rgba(76, 175, 80, 0.8);
+    -fx-border-color: #4CAF50;
+    -fx-border-radius: 5px;
+    -fx-padding: 10;
+    -fx-font-size: 20px;
+    -fx-text-fill: white;
+}
+
+#boardGrid .label {
+    -fx-text-fill: #A8D5BA;
+    -fx-font-size: 18px;
+}
+
+.vbox {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+    -fx-background: transparent;
+    -fx-vbar-policy: never;
+    -fx-border-color:  black;
+    -fx-border-width: 3px;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow( gaussian , rgba(0, 255, 0, 0.75) , 10, 0.5 , 0 , 0 );
+}
